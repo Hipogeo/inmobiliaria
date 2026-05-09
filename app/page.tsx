@@ -45,7 +45,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 text-white">
 
           <h1 className="text-xl font-semibold tracking-[0.2em]">
-            SERGIO ULLUA
+            SERGIO LLULL
           </h1>
 
           <nav className="hidden md:flex gap-8 text-sm uppercase tracking-widest">
@@ -177,7 +177,7 @@ export default function Home() {
 
       {/* WHATSAPP FLOAT BUTTON */}
       <a
-        href="https://wa.me/5491100000000"
+        href="https://wa.me/5491126585125"
         target="_blank"
         className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 w-16 h-16 rounded-full flex items-center justify-center shadow-xl transition hover:scale-105"
       >

@@ -154,10 +154,83 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NOSOTROS */}
+      {/* BUSCADOR */}
       <section
         ref={(el) => {
           sectionsRef.current[2] = el;
+        }}
+        className="h-screen flex items-center justify-center bg-[#f5f5f5] px-6"
+      >
+        <div className="mx-auto max-w-7xl w-full">
+
+          <div className="text-center mb-14">
+
+            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-gray-500">
+              Buscador inmobiliario
+            </p>
+
+            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+              Encontrá tu próxima propiedad
+            </h2>
+
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Explorá propiedades por ubicación, tipo de operación,
+              categoría y rango de precios.
+            </p>
+
+          </div>
+
+          <div className="bg-white rounded-[40px] shadow-2xl p-10 md:p-14">
+
+            <div className="grid gap-6 md:grid-cols-4">
+
+              <select className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none">
+                <option>Operación</option>
+                <option>Venta</option>
+                <option>Alquiler</option>
+              </select>
+
+              <select className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none">
+                <option>Tipo</option>
+                <option>Casa</option>
+                <option>Departamento</option>
+                <option>Terreno</option>
+              </select>
+
+              <input
+                type="text"
+                placeholder="Ciudad o ubicación"
+                className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none"
+              />
+
+              <input
+                type="number"
+                placeholder="Precio máximo"
+                className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none"
+              />
+
+            </div>
+
+            <div className="mt-10 text-center">
+
+              <a
+                href="/propiedades"
+                className="inline-block bg-black text-white px-12 py-5 rounded-full font-medium uppercase tracking-widest hover:bg-gray-800 transition"
+              >
+                Buscar propiedades
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* NOSOTROS */}
+      <section
+        ref={(el) => {
+          sectionsRef.current[3] = el;
         }}
         className="h-screen flex items-center justify-center text-white relative"
       >
@@ -184,7 +257,7 @@ export default function Home() {
       {/* CONTACTO */}
       <section
         ref={(el) => {
-          sectionsRef.current[3] = el;
+          sectionsRef.current[4] = el;
         }}
         className="h-screen flex items-center justify-center text-white relative px-6"
       >

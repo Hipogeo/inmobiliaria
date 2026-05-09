@@ -25,6 +25,7 @@ export default function Home() {
               Nosotros
             </a>
 
+            {/* ✅ CONTACTO LINK */}
             <a href="/contacto" className="hover:opacity-70 transition">
               Contacto
             </a>
@@ -63,13 +64,20 @@ export default function Home() {
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
 
-            <button className="rounded-full bg-white px-8 py-4 text-sm font-medium uppercase tracking-widest text-black transition hover:bg-gray-200">
+            <a
+              href="/propiedades"
+              className="rounded-full bg-white px-8 py-4 text-sm font-medium uppercase tracking-widest text-black transition hover:bg-gray-200"
+            >
               Ver propiedades
-            </button>
+            </a>
 
-            <button className="rounded-full border border-white/40 px-8 py-4 text-sm font-medium uppercase tracking-widest transition hover:bg-white hover:text-black">
+            {/* ✅ CONTACTO BUTTON FIX */}
+            <a
+              href="/contacto"
+              className="rounded-full border border-white/40 px-8 py-4 text-sm font-medium uppercase tracking-widest transition hover:bg-white hover:text-black"
+            >
               Contactar
-            </button>
+            </a>
 
           </div>
 

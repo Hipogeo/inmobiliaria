@@ -36,9 +36,41 @@ export default function ContactoPage() {
   return (
     <main className="min-h-screen bg-white text-black">
 
+      {/* NAVBAR */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 text-white">
+
+          <h1 className="text-xl font-semibold tracking-[0.2em]">
+            SERGIO ULLUA
+          </h1>
+
+          <nav className="hidden md:flex gap-8 text-sm uppercase tracking-widest">
+
+            <a href="/" className="hover:opacity-70 transition">
+              Inicio
+            </a>
+
+            <a href="/propiedades" className="hover:opacity-70 transition">
+              Propiedades
+            </a>
+
+            <a href="/nosotros" className="hover:opacity-70 transition">
+              Nosotros
+            </a>
+
+            <a href="/contacto" className="hover:opacity-70 transition">
+              Contacto
+            </a>
+
+          </nav>
+
+        </div>
+      </header>
+
       {/* HERO */}
-      <section className="bg-black px-6 py-32 text-white">
+      <section className="bg-black px-6 py-32 pt-44 text-white">
         <div className="mx-auto max-w-4xl text-center">
+
           <p className="mb-4 text-sm uppercase tracking-[0.3em] text-gray-400">
             Contacto
           </p>
@@ -58,6 +90,7 @@ export default function ContactoPage() {
           >
             WhatsApp directo
           </a>
+
         </div>
       </section>
 
@@ -126,15 +159,19 @@ export default function ContactoPage() {
 
           {/* INFO EXTRA */}
           <div className="mt-16 border-t pt-10 text-sm text-gray-600">
+
             <p className="mb-2">
               📍 San Pedro, Buenos Aires
             </p>
+
             <p className="mb-2">
               📧 contacto@inmobiliaria.com
             </p>
+
             <p>
               📱 +54 9 11 0000-0000
             </p>
+
           </div>
 
         </div>

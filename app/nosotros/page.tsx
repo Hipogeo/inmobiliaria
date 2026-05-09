@@ -2,8 +2,37 @@ export default function NosotrosPage() {
   return (
     <main className="min-h-screen bg-white text-black">
 
+      {/* NAVBAR */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 text-white">
+
+          <h1 className="text-xl font-semibold tracking-[0.2em]">
+            SERGIO ULLUA
+          </h1>
+
+          <nav className="hidden md:flex gap-8 text-sm uppercase tracking-widest">
+            <a href="/" className="hover:opacity-70 transition">
+              Inicio
+            </a>
+
+            <a href="/propiedades" className="hover:opacity-70 transition">
+              Propiedades
+            </a>
+
+            <a href="/nosotros" className="hover:opacity-70 transition">
+              Nosotros
+            </a>
+
+            <a href="/contacto" className="hover:opacity-70 transition">
+              Contacto
+            </a>
+          </nav>
+
+        </div>
+      </header>
+
       {/* HERO */}
-      <section className="relative flex items-center justify-center bg-black px-6 py-32 text-white">
+      <section className="relative flex items-center justify-center bg-black px-6 py-32 pt-48 text-white">
 
         <div className="absolute inset-0 opacity-30">
           <img

@@ -6,14 +6,10 @@ import { properties } from "@/data/properties";
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<Array<HTMLElement | null>>([]);
-
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const [activeOperation, setActiveOperation] =
-    useState("Comprar");
-
-  const [nosotrosVisible, setNosotrosVisible] =
-    useState(false);
+  const [operation, setOperation] = useState("comprar");
+  const [showAboutImages, setShowAboutImages] = useState(false);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -27,13 +23,8 @@ export default function Home() {
 
       const currentIndex = sections.findIndex((section) => {
         if (!section) return false;
-
         const rect = section.getBoundingClientRect();
-
-        return (
-          rect.top >= -10 &&
-          rect.top < window.innerHeight / 2
-        );
+        return rect.top >= -10 && rect.top < window.innerHeight / 2;
       });
 
       const nextIndex = Math.min(
@@ -41,47 +32,33 @@ export default function Home() {
         sections.length - 1
       );
 
-      sections[nextIndex]?.scrollIntoView({
-        behavior: "smooth",
-      });
-    };
-
-    const handleScroll = () => {
-      const nosotrosSection =
-        sectionsRef.current[2];
-
-      if (!nosotrosSection) return;
-
-      const rect =
-        nosotrosSection.getBoundingClientRect();
-
-      const visible =
-        rect.top < window.innerHeight * 0.4 &&
-        rect.bottom > window.innerHeight * 0.6;
-
-      setNosotrosVisible(visible);
+      sections[nextIndex]?.scrollIntoView({ behavior: "smooth" });
     };
 
     const el = containerRef.current;
+    el?.addEventListener("wheel", handleWheel, { passive: false });
 
-    el?.addEventListener("wheel", handleWheel, {
-      passive: false,
-    });
+    return () => el?.removeEventListener("wheel", handleWheel);
+  }, []);
 
-    window.addEventListener("scroll", handleScroll);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowAboutImages(entry.isIntersecting);
+      },
+      {
+        threshold: 0.45,
+      }
+    );
 
-    handleScroll();
+    const aboutSection = sectionsRef.current[2];
+
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
 
     return () => {
-      el?.removeEventListener(
-        "wheel",
-        handleWheel
-      );
-
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
+      if (aboutSection) observer.unobserve(aboutSection);
     };
   }, []);
 
@@ -102,13 +79,11 @@ export default function Home() {
   return (
     <main
       ref={containerRef}
-      className="h-screen overflow-hidden bg-white text-black"
+      className="min-h-screen overflow-hidden bg-white text-black"
     >
-
       {/* NAVBAR */}
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 text-white">
-
           <h1 className="text-xl font-semibold tracking-[0.2em]">
             SERGIO ULLUA
           </h1>
@@ -119,7 +94,6 @@ export default function Home() {
             <a href="/nosotros">Nosotros</a>
             <a href="/contacto">Contacto</a>
           </nav>
-
         </div>
       </header>
 
@@ -128,7 +102,7 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current[0] = el;
         }}
-        className="h-screen bg-black text-white relative overflow-hidden"
+        className="min-h-screen bg-black text-white relative overflow-hidden"
       >
         <img
           src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
@@ -138,40 +112,30 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/30" />
 
         {/* TEXTO SUPERIOR */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40">
-
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 md:pt-40">
           <div className="max-w-4xl">
-
             <p className="mb-5 text-sm uppercase tracking-[0.35em] text-gray-300">
               Inmobiliaria premium
             </p>
 
-            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold leading-[1.05]">
               Propiedades extraordinarias
               <br />
               para nuevas etapas de vida.
             </h1>
-
           </div>
-
         </div>
 
         {/* BUSCADOR RAPIDO */}
-        <div className="absolute bottom-16 left-0 w-full z-20 px-6">
-
-          <div className="mx-auto max-w-7xl">
-
+        <div className="absolute bottom-8 md:bottom-16 left-0 w-full z-20 px-4 md:px-6">
+          <div className="mx-auto max-w-6xl">
             <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-[0_25px_80px_rgba(0,0,0,0.35)] p-5 md:p-6">
-
               {/* OPERACIONES */}
               <div className="flex flex-wrap gap-3 mb-5">
-
                 <button
-                  onClick={() =>
-                    setActiveOperation("Comprar")
-                  }
+                  onClick={() => setOperation("comprar")}
                   className={`px-6 py-3 rounded-full text-sm font-medium transition ${
-                    activeOperation === "Comprar"
+                    operation === "comprar"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
                   }`}
@@ -180,11 +144,9 @@ export default function Home() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    setActiveOperation("Alquilar")
-                  }
+                  onClick={() => setOperation("alquilar")}
                   className={`px-6 py-3 rounded-full text-sm font-medium transition ${
-                    activeOperation === "Alquilar"
+                    operation === "alquilar"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
                   }`}
@@ -193,24 +155,19 @@ export default function Home() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    setActiveOperation("Emprendimientos")
-                  }
+                  onClick={() => setOperation("emprendimientos")}
                   className={`px-6 py-3 rounded-full text-sm font-medium transition ${
-                    activeOperation ===
-                    "Emprendimientos"
+                    operation === "emprendimientos"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
                   }`}
                 >
                   Emprendimientos
                 </button>
-
               </div>
 
               {/* FILTROS */}
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-
                 <select className="h-16 rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
                   <option>Provincia</option>
                   <option>Buenos Aires</option>
@@ -254,15 +211,10 @@ export default function Home() {
                 >
                   Buscar
                 </a>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
 
       {/* PROPIEDADES */}
@@ -270,31 +222,31 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current[1] = el;
         }}
-        className="h-screen flex items-center px-6 pt-20 relative"
+        className="min-h-screen flex items-center px-6 pt-20 relative"
       >
         <div className="mx-auto max-w-7xl w-full relative">
-
-          <h2 className="text-5xl font-bold mb-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-10">
             Propiedades seleccionadas
           </h2>
 
+          {/* FLECHA IZQUIERDA */}
           <button
             onClick={scrollLeft}
-            className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-20 h-20 rounded-full text-5xl shadow-2xl hover:scale-110 transition"
+            className="absolute left-[-20px] md:left-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-16 h-16 md:w-20 md:h-20 rounded-full text-4xl md:text-5xl shadow-2xl hover:scale-110 transition"
           >
             ‹
           </button>
 
+          {/* CARRUSEL */}
           <div
             ref={carouselRef}
             className="flex gap-8 overflow-x-auto pb-4 scroll-smooth no-scrollbar"
           >
-
             {properties.map((p) => (
               <a
                 key={p.id}
                 href={`/propiedades/${p.id}`}
-                className="min-w-[340px] bg-white shadow-xl rounded-[32px] overflow-hidden flex-shrink-0"
+                className="min-w-[320px] md:min-w-[340px] bg-white shadow-xl rounded-[32px] overflow-hidden flex-shrink-0"
               >
                 <img
                   src={p.images?.[0]}
@@ -302,27 +254,20 @@ export default function Home() {
                 />
 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold">
-                    {p.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-600">
-                    {p.city}
-                  </p>
+                  <h3 className="text-xl font-bold">{p.title}</h3>
+                  <p className="text-sm text-gray-600">{p.city}</p>
                 </div>
-
               </a>
             ))}
-
           </div>
 
+          {/* FLECHA DERECHA */}
           <button
             onClick={scrollRight}
-            className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-20 h-20 rounded-full text-5xl shadow-2xl hover:scale-110 transition"
+            className="absolute right-[-20px] md:right-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-16 h-16 md:w-20 md:h-20 rounded-full text-4xl md:text-5xl shadow-2xl hover:scale-110 transition"
           >
             ›
           </button>
-
         </div>
       </section>
 
@@ -331,7 +276,7 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current[2] = el;
         }}
-        className="h-screen flex items-center justify-center text-white relative overflow-hidden"
+        className="min-h-screen flex items-center justify-center text-white relative overflow-hidden"
       >
         <img
           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -341,40 +286,45 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/65" />
 
         {/* FOTO IZQUIERDA */}
-        <img
-          src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
-          className={`absolute left-[-40px] bottom-20 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[1800ms] ease-out ${
-            nosotrosVisible
+        <div
+          className={`absolute left-6 md:left-20 top-1/2 -translate-y-1/2 transition-all duration-[2200ms] ${
+            showAboutImages
               ? "opacity-100 translate-x-0"
-              : "opacity-0 -translate-x-24"
+              : "opacity-0 -translate-x-20"
           }`}
-        />
+        >
+          <img
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop"
+            className="w-[260px] md:w-[340px] h-[420px] object-cover rounded-[32px] shadow-2xl"
+          />
+        </div>
 
         {/* FOTO DERECHA */}
-        <img
-          src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=1200&auto=format&fit=crop"
-          className={`absolute right-[-40px] top-24 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[2400ms] delay-300 ease-out ${
-            nosotrosVisible
+        <div
+          className={`absolute right-6 md:right-20 top-1/2 -translate-y-1/2 transition-all duration-[2600ms] delay-500 ${
+            showAboutImages
               ? "opacity-100 translate-x-0"
-              : "opacity-0 translate-x-24"
+              : "opacity-0 translate-x-20"
           }`}
-        />
+        >
+          <img
+            src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
+            className="w-[260px] md:w-[340px] h-[420px] object-cover rounded-[32px] shadow-2xl"
+          />
+        </div>
 
-        {/* CONTENIDO */}
-        <div className="relative z-20 text-center max-w-4xl px-6">
-
-          <h2 className="text-5xl font-bold mb-6">
+        {/* TEXTO */}
+        <div className="relative z-10 text-center max-w-3xl px-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Nosotros
           </h2>
 
-          <p className="text-lg text-gray-200 leading-relaxed">
-            Inmobiliaria con más de 10 años de trayectoria en San Pedro y la región,
-            especializada en propiedades residenciales, inversión y asesoramiento
-            personalizado en cada operación inmobiliaria.
+          <p className="text-base md:text-lg text-gray-200 leading-relaxed">
+            Inmobiliaria con más de 10 años de trayectoria en San Pedro y la
+            región, especializada en propiedades residenciales, inversión y
+            asesoramiento personalizado en cada operación inmobiliaria.
           </p>
-
         </div>
-
       </section>
 
       {/* CONTACTO */}
@@ -382,9 +332,8 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current[3] = el;
         }}
-        className="h-screen flex items-center justify-center text-white relative px-6"
+        className="min-h-screen flex items-center justify-center text-white relative px-6"
       >
-
         <img
           src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=2070&auto=format&fit=crop"
           className="absolute inset-0 w-full h-full object-cover"
@@ -393,18 +342,17 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/70" />
 
         <div className="relative text-center max-w-4xl">
-
           <p className="mb-4 text-sm uppercase tracking-[0.3em] text-gray-300">
             Contacto
           </p>
 
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Hablemos de tu próxima propiedad
           </h2>
 
           <p className="text-gray-300 mb-10 text-lg">
-            Te acompañamos en todo el proceso de compra, venta o inversión inmobiliaria
-            con asesoramiento personalizado.
+            Te acompañamos en todo el proceso de compra, venta o inversión
+            inmobiliaria con asesoramiento personalizado.
           </p>
 
           <a
@@ -413,9 +361,7 @@ export default function Home() {
           >
             Contactar ahora
           </a>
-
         </div>
-
       </section>
 
       {/* WHATSAPP */}
@@ -434,7 +380,6 @@ export default function Home() {
           <path d="M16 3C9.37 3 4 8.37 4 15c0 2.64.86 5.08 2.3 7.07L4 29l7.16-2.23C13.1 27.58 14.52 28 16 28c6.63 0 12-5.37 12-12S22.63 3 16 3zm0 22c-1.36 0-2.68-.34-3.85-.98l-.27-.15-4.25 1.33 1.39-4.14-.18-.28A9.94 9.94 0 0 1 6 15c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10z" />
         </svg>
       </a>
-
     </main>
   );
 }

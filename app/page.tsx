@@ -130,8 +130,10 @@ export default function Home() {
         }}
         className="h-screen bg-black text-white relative overflow-hidden"
       >
+
+        {/* CAMPO VERDE AÉREO (NUEVA IMAGEN) */}
         <img
-          src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
 
@@ -161,16 +163,16 @@ export default function Home() {
 
           <div className="mx-auto max-w-[1920px]">
 
-            <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-[0_25px_80px_rgba(0,0,0,0.35)] p-[1.5vw]">
+            <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-[0_25px_80px_rgba(0,0,0,0.35)] p-4">
 
               {/* OPERACIONES */}
-              <div className="flex flex-wrap gap-3 mb-5">
+              <div className="flex flex-wrap gap-3 mb-4">
 
                 <button
                   onClick={() =>
                     setActiveOperation("Comprar")
                   }
-                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
+                  className={`px-5 py-2.5 rounded-full text-xs font-medium transition ${
                     activeOperation === "Comprar"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
@@ -183,7 +185,7 @@ export default function Home() {
                   onClick={() =>
                     setActiveOperation("Alquilar")
                   }
-                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
+                  className={`px-5 py-2.5 rounded-full text-xs font-medium transition ${
                     activeOperation === "Alquilar"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
@@ -196,9 +198,8 @@ export default function Home() {
                   onClick={() =>
                     setActiveOperation("Emprendimientos")
                   }
-                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
-                    activeOperation ===
-                    "Emprendimientos"
+                  className={`px-5 py-2.5 rounded-full text-xs font-medium transition ${
+                    activeOperation === "Emprendimientos"
                       ? "bg-black text-white"
                       : "bg-gray-100 text-black hover:bg-gray-200"
                   }`}
@@ -209,9 +210,9 @@ export default function Home() {
               </div>
 
               {/* FILTROS */}
-              <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
 
-                <select className="h-[64px] rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                <select className="h-[56px] rounded-2xl border border-gray-200 bg-white px-4 text-[14px] text-black outline-none">
                   <option>Provincia</option>
                   <option>Buenos Aires</option>
                   <option>Córdoba</option>
@@ -219,14 +220,14 @@ export default function Home() {
                   <option>Mendoza</option>
                 </select>
 
-                <select className="h-[64px] rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                <select className="h-[56px] rounded-2xl border border-gray-200 bg-white px-4 text-[14px] text-black outline-none">
                   <option>Zona</option>
                   <option>San Pedro</option>
                   <option>Palermo</option>
                   <option>Rosario</option>
                 </select>
 
-                <select className="h-[64px] rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                <select className="h-[56px] rounded-2xl border border-gray-200 bg-white px-4 text-[14px] text-black outline-none">
                   <option>Tipo</option>
                   <option>Casa</option>
                   <option>Departamento</option>
@@ -234,7 +235,7 @@ export default function Home() {
                   <option>Terreno</option>
                 </select>
 
-                <select className="h-[64px] rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                <select className="h-[56px] rounded-2xl border border-gray-200 bg-white px-4 text-[14px] text-black outline-none">
                   <option>Dormitorios</option>
                   <option>1+</option>
                   <option>2+</option>
@@ -245,12 +246,12 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Palabras clave"
-                  className="h-[64px] rounded-2xl border border-gray-200 px-5 text-[15px] outline-none placeholder:text-gray-400"
+                  className="h-[56px] rounded-2xl border border-gray-200 px-4 text-[14px] outline-none placeholder:text-gray-400"
                 />
 
                 <a
                   href="/propiedades"
-                  className="h-[64px] rounded-2xl bg-black text-white flex items-center justify-center text-sm font-medium uppercase tracking-[0.15em] transition hover:bg-gray-800"
+                  className="h-[56px] rounded-2xl bg-black text-white flex items-center justify-center text-xs font-medium uppercase tracking-[0.15em] transition hover:bg-gray-800"
                 >
                   Buscar
                 </a>
@@ -340,7 +341,6 @@ export default function Home() {
 
         <div className="absolute inset-0 bg-black/65" />
 
-        {/* FOTO IZQUIERDA */}
         <img
           src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
           className={`absolute left-[-120px] bottom-20 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[2200ms] ease-out ${
@@ -350,7 +350,6 @@ export default function Home() {
           }`}
         />
 
-        {/* FOTO DERECHA */}
         <img
           src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=1200&auto=format&fit=crop"
           className={`absolute right-[-120px] top-24 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[2800ms] delay-300 ease-out ${
@@ -360,7 +359,6 @@ export default function Home() {
           }`}
         />
 
-        {/* CONTENIDO */}
         <div className="relative z-20 text-center max-w-4xl px-6">
 
           <h2 className="text-[clamp(40px,3vw,70px)] font-bold mb-6">

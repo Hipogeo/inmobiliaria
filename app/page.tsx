@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { properties } from "@/data/properties";
 
 export default function Home() {
@@ -8,6 +8,12 @@ export default function Home() {
   const sectionsRef = useRef<Array<HTMLElement | null>>([]);
 
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  const [activeOperation, setActiveOperation] =
+    useState("Comprar");
+
+  const [nosotrosVisible, setNosotrosVisible] =
+    useState(false);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -21,8 +27,13 @@ export default function Home() {
 
       const currentIndex = sections.findIndex((section) => {
         if (!section) return false;
+
         const rect = section.getBoundingClientRect();
-        return rect.top >= -10 && rect.top < window.innerHeight / 2;
+
+        return (
+          rect.top >= -10 &&
+          rect.top < window.innerHeight / 2
+        );
       });
 
       const nextIndex = Math.min(
@@ -30,13 +41,48 @@ export default function Home() {
         sections.length - 1
       );
 
-      sections[nextIndex]?.scrollIntoView({ behavior: "smooth" });
+      sections[nextIndex]?.scrollIntoView({
+        behavior: "smooth",
+      });
+    };
+
+    const handleScroll = () => {
+      const nosotrosSection =
+        sectionsRef.current[2];
+
+      if (!nosotrosSection) return;
+
+      const rect =
+        nosotrosSection.getBoundingClientRect();
+
+      const visible =
+        rect.top < window.innerHeight * 0.4 &&
+        rect.bottom > window.innerHeight * 0.6;
+
+      setNosotrosVisible(visible);
     };
 
     const el = containerRef.current;
-    el?.addEventListener("wheel", handleWheel, { passive: false });
 
-    return () => el?.removeEventListener("wheel", handleWheel);
+    el?.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      el?.removeEventListener(
+        "wheel",
+        handleWheel
+      );
+
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+    };
   }, []);
 
   const scrollLeft = () => {
@@ -82,18 +128,141 @@ export default function Home() {
         ref={(el) => {
           sectionsRef.current[0] = el;
         }}
-        className="h-screen flex items-center justify-center bg-black text-white relative pt-20"
+        className="h-screen bg-black text-white relative overflow-hidden"
       >
         <img
           src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
 
-        <div className="relative text-center max-w-5xl">
-          <h1 className="text-5xl md:text-7xl font-bold">
-            Propiedades extraordinarias para nuevas etapas de vida.
-          </h1>
+        <div className="absolute inset-0 bg-black/30" />
+
+        {/* TEXTO SUPERIOR */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40">
+
+          <div className="max-w-4xl">
+
+            <p className="mb-5 text-sm uppercase tracking-[0.35em] text-gray-300">
+              Inmobiliaria premium
+            </p>
+
+            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05]">
+              Propiedades extraordinarias
+              <br />
+              para nuevas etapas de vida.
+            </h1>
+
+          </div>
+
         </div>
+
+        {/* BUSCADOR RAPIDO */}
+        <div className="absolute bottom-16 left-0 w-full z-20 px-6">
+
+          <div className="mx-auto max-w-7xl">
+
+            <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-[0_25px_80px_rgba(0,0,0,0.35)] p-5 md:p-6">
+
+              {/* OPERACIONES */}
+              <div className="flex flex-wrap gap-3 mb-5">
+
+                <button
+                  onClick={() =>
+                    setActiveOperation("Comprar")
+                  }
+                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
+                    activeOperation === "Comprar"
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-black hover:bg-gray-200"
+                  }`}
+                >
+                  Comprar
+                </button>
+
+                <button
+                  onClick={() =>
+                    setActiveOperation("Alquilar")
+                  }
+                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
+                    activeOperation === "Alquilar"
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-black hover:bg-gray-200"
+                  }`}
+                >
+                  Alquilar
+                </button>
+
+                <button
+                  onClick={() =>
+                    setActiveOperation("Emprendimientos")
+                  }
+                  className={`px-6 py-3 rounded-full text-sm font-medium transition ${
+                    activeOperation ===
+                    "Emprendimientos"
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-black hover:bg-gray-200"
+                  }`}
+                >
+                  Emprendimientos
+                </button>
+
+              </div>
+
+              {/* FILTROS */}
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+
+                <select className="h-16 rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                  <option>Provincia</option>
+                  <option>Buenos Aires</option>
+                  <option>Córdoba</option>
+                  <option>Santa Fe</option>
+                  <option>Mendoza</option>
+                </select>
+
+                <select className="h-16 rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                  <option>Zona</option>
+                  <option>San Pedro</option>
+                  <option>Palermo</option>
+                  <option>Rosario</option>
+                </select>
+
+                <select className="h-16 rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                  <option>Tipo</option>
+                  <option>Casa</option>
+                  <option>Departamento</option>
+                  <option>Campo</option>
+                  <option>Terreno</option>
+                </select>
+
+                <select className="h-16 rounded-2xl border border-gray-200 bg-white px-5 text-[15px] text-black outline-none">
+                  <option>Dormitorios</option>
+                  <option>1+</option>
+                  <option>2+</option>
+                  <option>3+</option>
+                  <option>4+</option>
+                </select>
+
+                <input
+                  type="text"
+                  placeholder="Palabras clave"
+                  className="h-16 rounded-2xl border border-gray-200 px-5 text-[15px] outline-none placeholder:text-gray-400"
+                />
+
+                <a
+                  href="/propiedades"
+                  className="h-16 rounded-2xl bg-black text-white flex items-center justify-center text-sm font-medium uppercase tracking-[0.15em] transition hover:bg-gray-800"
+                >
+                  Buscar
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </section>
 
       {/* PROPIEDADES */}
@@ -109,7 +278,6 @@ export default function Home() {
             Propiedades seleccionadas
           </h2>
 
-          {/* FLECHA IZQUIERDA */}
           <button
             onClick={scrollLeft}
             className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-20 h-20 rounded-full text-5xl shadow-2xl hover:scale-110 transition"
@@ -117,7 +285,6 @@ export default function Home() {
             ‹
           </button>
 
-          {/* CARRUSEL */}
           <div
             ref={carouselRef}
             className="flex gap-8 overflow-x-auto pb-4 scroll-smooth no-scrollbar"
@@ -135,15 +302,20 @@ export default function Home() {
                 />
 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold">{p.title}</h3>
-                  <p className="text-sm text-gray-600">{p.city}</p>
+                  <h3 className="text-xl font-bold">
+                    {p.title}
+                  </h3>
+
+                  <p className="text-sm text-gray-600">
+                    {p.city}
+                  </p>
                 </div>
+
               </a>
             ))}
 
           </div>
 
-          {/* FLECHA DERECHA */}
           <button
             onClick={scrollRight}
             className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-20 bg-black text-white w-20 h-20 rounded-full text-5xl shadow-2xl hover:scale-110 transition"
@@ -154,110 +326,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BUSCADOR */}
+      {/* NOSOTROS */}
       <section
         ref={(el) => {
           sectionsRef.current[2] = el;
         }}
-        className="h-screen flex items-center justify-center bg-[#f5f5f5] px-6"
-      >
-        <div className="mx-auto max-w-7xl w-full">
-
-          <div className="text-center mb-14">
-
-            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-gray-500">
-              Buscador inmobiliario
-            </p>
-
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Encontrá tu próxima propiedad
-            </h2>
-
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Explorá propiedades por ubicación, tipo de operación,
-              categoría y rango de precios.
-            </p>
-
-          </div>
-
-          <div className="bg-white rounded-[40px] shadow-2xl p-10 md:p-14">
-
-            <div className="grid gap-6 md:grid-cols-4">
-
-              <select className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none">
-                <option>Operación</option>
-                <option>Venta</option>
-                <option>Alquiler</option>
-              </select>
-
-              <select className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none">
-                <option>Tipo</option>
-                <option>Casa</option>
-                <option>Departamento</option>
-                <option>Terreno</option>
-              </select>
-
-              <input
-                type="text"
-                placeholder="Ciudad o ubicación"
-                className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none"
-              />
-
-              <input
-                type="number"
-                placeholder="Precio máximo"
-                className="border border-gray-200 rounded-2xl px-6 py-5 text-lg outline-none"
-              />
-
-            </div>
-
-            <div className="mt-10 text-center">
-
-              <a
-                href="/propiedades"
-                className="inline-block bg-black text-white px-12 py-5 rounded-full font-medium uppercase tracking-widest hover:bg-gray-800 transition"
-              >
-                Buscar propiedades
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* NOSOTROS */}
-      <section
-        ref={(el) => {
-          sectionsRef.current[3] = el;
-        }}
-        className="h-screen flex items-center justify-center text-white relative"
+        className="h-screen flex items-center justify-center text-white relative overflow-hidden"
       >
         <img
           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/65" />
 
-        <div className="relative text-center max-w-4xl px-6">
+        {/* FOTO IZQUIERDA */}
+        <img
+          src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop"
+          className={`absolute left-[-40px] bottom-20 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[1800ms] ease-out ${
+            nosotrosVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-24"
+          }`}
+        />
+
+        {/* FOTO DERECHA */}
+        <img
+          src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=1200&auto=format&fit=crop"
+          className={`absolute right-[-40px] top-24 w-[340px] h-[460px] object-cover rounded-[32px] shadow-2xl transition-all duration-[2400ms] delay-300 ease-out ${
+            nosotrosVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-24"
+          }`}
+        />
+
+        {/* CONTENIDO */}
+        <div className="relative z-20 text-center max-w-4xl px-6">
+
           <h2 className="text-5xl font-bold mb-6">
             Nosotros
           </h2>
 
-          <p className="text-lg text-gray-200">
+          <p className="text-lg text-gray-200 leading-relaxed">
             Inmobiliaria con más de 10 años de trayectoria en San Pedro y la región,
             especializada en propiedades residenciales, inversión y asesoramiento
             personalizado en cada operación inmobiliaria.
           </p>
+
         </div>
+
       </section>
 
       {/* CONTACTO */}
       <section
         ref={(el) => {
-          sectionsRef.current[4] = el;
+          sectionsRef.current[3] = el;
         }}
         className="h-screen flex items-center justify-center text-white relative px-6"
       >
@@ -295,7 +418,7 @@ export default function Home() {
 
       </section>
 
-      {/* WHATSAPP FLOAT BUTTON */}
+      {/* WHATSAPP */}
       <a
         href="https://wa.me/5491100000000"
         target="_blank"

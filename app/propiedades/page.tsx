@@ -103,103 +103,197 @@ export default function PropiedadesPage() {
       </header>
 
       {/* HERO */}
-      <section className="bg-black text-white px-6 py-32 pt-44 text-center">
+      <section className="relative bg-black text-white pt-44 pb-32 overflow-hidden">
 
-        <h1 className="text-5xl font-bold">
-          Propiedades
-        </h1>
+        <img
+          src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
+        />
 
-        <p className="mt-4 text-gray-300">
-          Explorá propiedades en toda Argentina
-        </p>
+        <div className="absolute inset-0 bg-black/50" />
 
-      </section>
+        <div className="relative mx-auto max-w-7xl px-6">
 
-      {/* FILTROS */}
-      <section className="px-6 py-12 border-b">
+          <div className="max-w-4xl">
 
-        <div className="mx-auto max-w-7xl grid gap-4 md:grid-cols-6">
+            <p className="mb-4 text-sm uppercase tracking-[0.4em] text-gray-300">
+              Propiedades
+            </p>
 
-          <input
-            type="text"
-            placeholder="Buscar..."
-            className="border rounded-full px-4 py-3"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+              Encontrá tu próxima propiedad
+            </h1>
 
-          <select
-            className="border rounded-full px-4 py-3"
-            value={province}
-            onChange={(e) => {
-              setProvince(e.target.value);
-              setCity("Todas");
-            }}
-          >
-            {provinces.map((p) => (
-              <option key={p}>{p}</option>
-            ))}
-          </select>
+            <p className="mt-6 text-lg text-gray-300">
+              Explorá propiedades premium en toda Argentina
+            </p>
 
-          <select
-            className="border rounded-full px-4 py-3"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          >
-            {cities.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
+          </div>
 
-          <select
-            className="border rounded-full px-4 py-3"
-            value={operation}
-            onChange={(e) => setOperation(e.target.value)}
-          >
-            <option>Todas</option>
-            <option>Venta</option>
-            <option>Alquiler</option>
-          </select>
+          {/* BUSCADOR */}
+          <div className="mt-14 rounded-[36px] bg-white p-6 shadow-2xl">
 
-          <select
-            className="border rounded-full px-4 py-3"
-            value={propertyType}
-            onChange={(e) =>
-              setPropertyType(e.target.value)
-            }
-          >
-            <option>Todas</option>
-            <option>Casa</option>
-            <option>Departamento</option>
-          </select>
+            {/* TEXTO NUEVO */}
+            <div className="mb-6">
 
-          <select
-            className="border rounded-full px-4 py-3"
-            value={bedrooms}
-            onChange={(e) =>
-              setBedrooms(e.target.value)
-            }
-          >
-            <option value="0">
-              Dormitorios
-            </option>
+              <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
+                Empezá tu búsqueda
+              </p>
 
-            <option value="1">
-              1+
-            </option>
+              <h2 className="mt-2 text-2xl md:text-3xl font-bold text-black">
+                ¿Qué tipo de operación estás buscando?
+              </h2>
 
-            <option value="2">
-              2+
-            </option>
+            </div>
 
-            <option value="3">
-              3+
-            </option>
+            {/* OPERACIONES */}
+            <div className="flex flex-wrap gap-4 mb-6">
 
-            <option value="4">
-              4+
-            </option>
+              <button
+                onClick={() => setOperation("Venta")}
+                className={`rounded-full px-8 py-3 text-sm font-medium transition ${
+                  operation === "Venta"
+                    ? "bg-black text-white shadow-lg"
+                    : "bg-gray-100 text-black hover:bg-gray-200"
+                }`}
+              >
+                Comprar
+              </button>
 
-          </select>
+              <button
+                onClick={() => setOperation("Alquiler")}
+                className={`rounded-full px-8 py-3 text-sm font-medium transition ${
+                  operation === "Alquiler"
+                    ? "bg-black text-white shadow-lg"
+                    : "bg-gray-100 text-black hover:bg-gray-200"
+                }`}
+              >
+                Alquilar
+              </button>
+
+              <button
+                onClick={() => setOperation("Todas")}
+                className={`rounded-full px-8 py-3 text-sm font-medium transition ${
+                  operation === "Todas"
+                    ? "bg-black text-white shadow-lg"
+                    : "bg-gray-100 text-black hover:bg-gray-200"
+                }`}
+              >
+                Todas
+              </button>
+
+            </div>
+
+            {/* FILTROS */}
+            <div className="grid gap-4 md:grid-cols-6">
+
+              <input
+                type="text"
+                placeholder="Buscar ubicación o propiedad..."
+                className="rounded-2xl border border-gray-200 px-5 py-4 outline-none focus:border-black text-black placeholder:text-gray-400"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+
+              <select
+                className="rounded-2xl border border-gray-200 px-5 py-4 outline-none focus:border-black text-black bg-white"
+                value={province}
+                onChange={(e) => {
+                  setProvince(e.target.value);
+                  setCity("Todas");
+                }}
+              >
+                {provinces.map((p) => (
+                  <option
+                    key={p}
+                    value={p}
+                    className="text-black"
+                  >
+                    {p}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="rounded-2xl border border-gray-200 px-5 py-4 outline-none focus:border-black text-black bg-white"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              >
+                {cities.map((c) => (
+                  <option
+                    key={c}
+                    value={c}
+                    className="text-black"
+                  >
+                    {c}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="rounded-2xl border border-gray-200 px-5 py-4 outline-none focus:border-black text-black bg-white"
+                value={propertyType}
+                onChange={(e) =>
+                  setPropertyType(e.target.value)
+                }
+              >
+                <option className="text-black">
+                  Todas
+                </option>
+
+                <option className="text-black">
+                  Casa
+                </option>
+
+                <option className="text-black">
+                  Departamento
+                </option>
+
+                <option className="text-black">
+                  Campo
+                </option>
+
+                <option className="text-black">
+                  Lote
+                </option>
+
+              </select>
+
+              <select
+                className="rounded-2xl border border-gray-200 px-5 py-4 outline-none focus:border-black text-black bg-white"
+                value={bedrooms}
+                onChange={(e) =>
+                  setBedrooms(e.target.value)
+                }
+              >
+                <option value="0" className="text-black">
+                  Dormitorios
+                </option>
+
+                <option value="1" className="text-black">
+                  1+
+                </option>
+
+                <option value="2" className="text-black">
+                  2+
+                </option>
+
+                <option value="3" className="text-black">
+                  3+
+                </option>
+
+                <option value="4" className="text-black">
+                  4+
+                </option>
+
+              </select>
+
+              <button className="rounded-2xl bg-black px-6 py-4 text-white font-medium transition hover:bg-gray-800">
+                Buscar
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -207,6 +301,18 @@ export default function PropiedadesPage() {
 
       {/* RESULTADOS */}
       <section className="px-6 py-20">
+
+        <div className="mx-auto mb-12 max-w-7xl">
+
+          <h2 className="text-4xl font-bold">
+            Resultados
+          </h2>
+
+          <p className="mt-3 text-gray-500">
+            {filtered.length} propiedades encontradas
+          </p>
+
+        </div>
 
         <div className="mx-auto max-w-7xl grid gap-8 md:grid-cols-3">
 

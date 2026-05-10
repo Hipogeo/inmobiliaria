@@ -66,13 +66,9 @@ export default function Home() {
   return (
     <main
       ref={containerRef}
-      /* MODIFICACIÓN DE ESCALA: 
-         - Usamos scale-90 o scale-75 para reducir el tamaño visual.
-         - Ajustamos el ancho para que no queden huecos blancos a los lados.
-      */
       className="h-screen overflow-hidden bg-white text-black selection:bg-black selection:text-white"
     >
-      {/* NAVBAR - Reducido ligeramente en padding y fuente */}
+      {/* NAVBAR */}
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-8 py-4 text-white">
           <h1 className="text-lg font-semibold tracking-[0.2em]">
@@ -87,7 +83,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO - Escala aplicada al contenido interno */}
+      {/* HERO */}
       <section
         ref={(el) => {
           sectionsRef.current[0] = el;
@@ -101,7 +97,8 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black/30" />
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-8 pt-[22vh] transform scale-[0.85] origin-left">
+        {/* TEXTO: Subido a pt-[15vh] para que no choque con el buscador */}
+        <div className="relative z-10 max-w-[1400px] mx-auto px-8 pt-[15vh] transform scale-[0.85] origin-left">
           <div className="max-w-[800px]">
             <p className="mb-4 text-xs uppercase tracking-[0.4em] text-gray-400">
               Inmobiliaria — San Pedro (Buenos Aires)
@@ -114,9 +111,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* BUSCADOR - Reducido al 85% para dar ese efecto de 67% de zoom */}
-        <div className="absolute bottom-[8vh] left-0 w-full z-20 px-8">
-          <div className="mx-auto max-w-[1400px] transform scale-[0.85] origin-bottom">
+        {/* BUSCADOR: Expandido a max-w-[95vw] para llegar casi al borde izquierdo */}
+        <div className="absolute bottom-[8vh] left-0 w-full z-20 px-4">
+          <div className="mx-auto max-w-[95vw] transform scale-[0.85] origin-bottom">
             <div className="bg-white/95 backdrop-blur-xl rounded-[40px] shadow-[0_30px_100px_rgba(0,0,0,0.4)] p-6">
               
               <div className="flex gap-3 mb-6">
@@ -174,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROPIEDADES - Contenedor reducido */}
+      {/* PROPIEDADES */}
       <section
         ref={(el) => {
           sectionsRef.current[1] = el;
@@ -205,7 +202,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NOSOTROS - Ajuste de escala */}
+      {/* NOSOTROS */}
       <section
         ref={(el) => {
           sectionsRef.current[2] = el;
